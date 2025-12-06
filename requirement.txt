@@ -1,0 +1,91 @@
+absl-py==2.3.1
+astunparse==1.6.3
+atomicwrites==1.4.1
+attrs==25.4.0
+beautifulsoup4==4.14.3
+blinker==1.9.0
+brotlicffi @ file:///C:/miniconda3/conda-bld/brotlicffi_1762950448512/work
+certifi @ file:///C:/miniconda3/conda-bld/certifi_1763135347537/work/certifi
+cffi @ file:///C:/miniconda3/conda-bld/cffi_1761832794697/work
+charset-normalizer @ file:///C:/miniconda3/conda-bld/charset-normalizer_1761744944645/work
+click==8.3.1
+colorama==0.4.6
+deepface==0.0.96
+facenet-pytorch==2.5.3
+filelock @ file:///C:/miniconda3/conda-bld/filelock_1762420019633/work
+fire==0.7.1
+Flask==3.1.2
+flask-cors==6.0.1
+flatbuffers==25.9.23
+fsspec==2025.12.0
+gast==0.7.0
+gdown==5.2.0
+gmpy2 @ file:///C:/miniconda3/conda-bld/gmpy2_1764748105976/work
+google-pasta==0.2.0
+grpcio==1.76.0
+gunicorn==23.0.0
+h5py==3.15.1
+idna @ file:///C:/miniconda3/conda-bld/idna_1761912044311/work
+iniconfig==2.3.0
+itsdangerous==2.2.0
+Jinja2 @ file:///C:/b/abs_920kup4e6u/croot/jinja2_1741711580669/work
+joblib==1.5.2
+keras==3.12.0
+libclang==18.1.1
+lightecc==0.0.3
+lightphe==0.0.19
+lz4==4.4.5
+Markdown==3.10
+markdown-it-py==4.0.0
+MarkupSafe @ file:///C:/b/abs_a0ma7ge0jc/croot/markupsafe_1738584052792/work
+mdurl==0.1.2
+mkl-service==2.4.0
+mkl_fft @ file:///C:/Users/dev-admin/mkl/mkl_fft_1730823082242/work
+mkl_random @ file:///C:/Users/dev-admin/mkl/mkl_random_1730822522280/work
+ml_dtypes==0.5.4
+mpmath @ file:///C:/b/abs_7833jrbiox/croot/mpmath_1690848321154/work
+mtcnn==1.0.0
+namex==0.1.0
+networkx @ file:///C:/b/abs_b054htfn9t/croot/networkx_1737043671910/work
+numpy==1.26.4
+opencv-python==4.11.0.86
+opt_einsum==3.4.0
+optree==0.18.0
+packaging==25.0
+pandas==2.3.3
+pillow==10.2.0
+pluggy==1.6.0
+protobuf==6.33.1
+py==1.11.0
+pycparser @ file:///C:/miniconda3/conda-bld/pycparser_1757496059965/work
+Pygments==2.19.2
+PySocks @ file:///C:/miniconda3/conda-bld/pysocks_1761753030270/work
+pytest==7.1.2
+python-dateutil==2.9.0.post0
+pytz==2025.2
+PyYAML @ file:///C:/miniconda3/conda-bld/pyyaml_1763465513320/work
+requests @ file:///C:/miniconda3/conda-bld/requests_1762359612241/work
+retina-face==0.0.17
+rich==14.2.0
+scikit-learn==1.7.2
+scipy==1.15.3
+six==1.17.0
+soupsieve==2.8
+sympy==1.14.0
+tensorboard==2.20.0
+tensorboard-data-server==0.7.2
+tensorflow==2.20.0
+termcolor==3.2.0
+tf_keras==2.20.1
+threadpoolctl==3.6.0
+tomli==2.3.0
+torch==2.9.1
+torchaudio==2.5.1+cpu
+torchvision==0.24.1
+tqdm==4.67.1
+typing_extensions @ file:///C:/b/abs_ecq8gc0vbm/croot/typing_extensions_1756281142218/work
+tzdata==2025.2
+urllib3 @ file:///C:/b/abs_393g1ayee_/croot/urllib3_1750775481226/work
+Werkzeug==3.1.4
+win_inet_pton @ file:///C:/miniconda3/conda-bld/win_inet_pton_1761746276406/work
+wrapt==2.0.1

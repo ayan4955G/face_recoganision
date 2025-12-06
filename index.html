@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facial Attendance System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 30px;
+            padding: 30px;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .video-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .video-container {
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #videoFeed {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f1f3f5;
+            color: #495057;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+        }
+
+        .stat-card.present .stat-number { color: #28a745; }
+        .stat-card.absent .stat-number { color: #dc3545; }
+        .stat-card.late .stat-number { color: #ffc107; }
+
+        .table-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .table-header h2 {
+            font-size: 20px;
+            color: #212529;
+        }
+
+        .search-box {
+            padding: 8px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            width: 250px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .table-container {
+            overflow-y: auto;
+            max-height: 1000px;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+    
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #495057;
+            border-bottom: 2px solid #dee2e6;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f1f3f5;
+            font-size: 14px;
+        }
+
+        tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-present {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-absent {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-late {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="main-content">
+            <div class="video-section">
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <img id="stream" src="{{ url_for('video_feed') }}" style="max-width:100%;"/>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn btn-primary" onclick="startCamera()">Start Camera</button>
+                    <button class="btn btn-secondary" onclick="stopCamera()">Stop Camera</button>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-card present">
+                        <div class="stat-number" id="presentCount">0</div>
+                        <div class="stat-label">Present</div>
+                    </div>
+                    <div class="stat-card absent">
+                        <div class="stat-number" id="absentCount">0</div>
+                        <div class="stat-label">Absent</div>
+                    </div>
+                    <div class="stat-card late">
+                        <div class="stat-number" id="lateCount">0</div>
+                        <div class="stat-label">Late</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-section">
+                <div class="table-header">
+                    <h2>Student Attendance</h2>
+                    <input type="text" class="search-box" id="searchBox" placeholder="Search students..." onkeyup="filterTable()">
+                </div>
+
+                <div class="table-container">
+                    <table id="attendanceTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Roll No</th>
+                                <th>Standard</th>
+                                <th>Division</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const students = [
+            { name: "Aarav Sharma", rollNo: "101", standard: "10", division: "A", status: "present" },
+            { name: "Diya Patel", rollNo: "102", standard: "10", division: "A", status: "present" },
+            { name: "Arjun Kumar", rollNo: "103", standard: "10", division: "A", status: "late" },
+            { name: "Ananya Singh", rollNo: "104", standard: "10", division: "A", status: "absent" },
+            { name: "Vihaan Reddy", rollNo: "105", standard: "10", division: "B", status: "present" },
+            { name: "Ishaan Verma", rollNo: "106", standard: "10", division: "B", status: "present" },
+            { name: "Saanvi Gupta", rollNo: "107", standard: "10", division: "B", status: "late" },
+            { name: "Aditya Joshi", rollNo: "108", standard: "10", division: "B", status: "absent" },
+            { name: "Kiara Mehta", rollNo: "109", standard: "10", division: "C", status: "present" },
+            { name: "Rohan Nair", rollNo: "110", standard: "10", division: "C", status: "present" },
+            { name: "Myra Desai", rollNo: "111", standard: "10", division: "C", status: "absent" },
+            { name: "Kabir Shah", rollNo: "112", standard: "10", division: "C", status: "late" },
+        ];
+
+        function renderTable(data = students) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            data.forEach(student => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${student.name}</td>
+                    <td>${student.rollNo}</td>
+                    <td>${student.standard}</td>
+                    <td>${student.division}</td>
+                    <td><span class="status-badge status-${student.status}">${student.status}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            updateStats(data);
+        }
+
+        function updateStats(data = students) {
+            const present = data.filter(s => s.status === 'present').length;
+            const absent = data.filter(s => s.status === 'absent').length;
+            const late = data.filter(s => s.status === 'late').length;
+
+            document.getElementById('presentCount').textContent = present;
+            document.getElementById('absentCount').textContent = absent;
+            document.getElementById('lateCount').textContent = late;
+        }
+
+        function filterTable() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            const filtered = students.filter(student => 
+                student.name.toLowerCase().includes(searchTerm) ||
+                student.rollNo.includes(searchTerm) ||
+                student.standard.includes(searchTerm) ||
+                student.division.toLowerCase().includes(searchTerm)
+            );
+            renderTable(filtered);
+        }
+
+        function startCamera() {
+            // use absolute or relative URL depending on where Flask is served
+            // if Flask runs on same host:port, this works:
+            document.getElementById('stream').src = '/video_feed';
+        }
+
+        function stopCamera() {
+            // stop by clearing src (browser stops requesting frames)
+            document.getElementById('stream').src = '';
+        }
+
+        renderTable();
+    </script>
+</body>
+</html>
