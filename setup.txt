@@ -1,0 +1,20 @@
+
+step 1: install all labrary 
+        run this command : python install requirement.txt
+
+step 2: add person data by running capture_face_data.py
+        run this command : python generate_embedding.py
+
+step 3: make generate embedding by running generate_embedding.py
+        run this command : python generate_embedding.py
+
+step 4: to train this model by running train_model.py
+        run this command : python train_model.py
+
+step 5: to run this main server 
+        run this command : python face_detection_web_server.py
+
+
+to activate the cctv :
+comment line number 82 of face_detection_web_server.py
+uncomment line number 81 of face_detection_web_server.py

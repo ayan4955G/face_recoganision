@@ -78,6 +78,7 @@ class FaceTrack:
 tracks = {}
 
 # open capture
+# cap = cv2.VideoCapture(RTSP_URL)
 cap = cv2.VideoCapture(VIDEO_SOURCE)
 if not cap.isOpened():
     raise RuntimeError("Cannot open video stream")
