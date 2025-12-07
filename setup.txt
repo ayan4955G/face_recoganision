@@ -3,7 +3,7 @@ step 1: install all labrary
         run this command : python install requirement.txt
 
 step 2: add person data by running capture_face_data.py
-        run this command : python generate_embedding.py
+        run this command : capture_face_data.py
 
 step 3: make generate embedding by running generate_embedding.py
         run this command : python generate_embedding.py

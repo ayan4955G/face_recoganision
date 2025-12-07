@@ -379,7 +379,7 @@ HTML_PAGE = """
         </div>
     </div>
 
-   <script>
+  <script>
     let students = [];
 
     async function fetchAttendanceData() {
@@ -397,7 +397,6 @@ HTML_PAGE = """
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = '';
 
-        // Sort students: present first, then late, then absent
         const sortedData = [...data].sort((a, b) => {
             const statusOrder = { 'present': 0, 'late': 1, 'absent': 2 };
             return statusOrder[a.status] - statusOrder[b.status];
@@ -408,8 +407,8 @@ HTML_PAGE = """
             row.innerHTML = `
                 <td>${student.name}</td>
                 <td>${student.rollNo}</td>
-                <td>${student.standard}</td>
-                <td>${student.division}</td>
+                <td>${student.std}</td>
+                <td>${student.div}</td>
                 <td><span class="status-badge status-${student.status}">${student.status}</span></td>
             `;
             tbody.appendChild(row);
@@ -433,26 +432,16 @@ HTML_PAGE = """
         const filtered = students.filter(student => 
             student.name.toLowerCase().includes(searchTerm) ||
             student.rollNo.toLowerCase().includes(searchTerm) ||
-            student.standard.toLowerCase().includes(searchTerm) ||
-            student.division.toLowerCase().includes(searchTerm)
+            student.std.toLowerCase().includes(searchTerm) ||
+            student.div.toLowerCase().includes(searchTerm)
         );
         renderTable(filtered);
     }
 
-    function startCamera() {
-        document.getElementById('stream').src = '/video_feed';
-    }
-
-    function stopCamera() {
-        document.getElementById('stream').src = '';
-    }
-
-    // Initial load
     fetchAttendanceData();
-
-    // Refresh attendance data every 3 seconds
     setInterval(fetchAttendanceData, 3000);
 </script>
+
 </body>
 </html>
 """
@@ -637,7 +626,7 @@ def get_attendance_data():
             attendance_list.append({
                 'name': student_name,
                 'rollNo': student.get('roll_number', 'N/A'),
-                'std': student.get('standard', 'N/A'),
+                'std': student.get('std', 'N/A'),
                 'div': student.get('div', 'N/A'),  # Note: 'div' not 'division'
                 'status': status
             })
